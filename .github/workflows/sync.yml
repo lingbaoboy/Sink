@@ -1,0 +1,18 @@
+name: Upstream Sync (Official Sync Fork)
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # 每天 UTC 0:00 自动运行一次
+  workflow_dispatch: # 支持在 GitHub 界面手动触发同步
+
+jobs:
+  sync_fork:
+    name: Sync Fork via GitHub CLI
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Sync with Upstream
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh repo sync ${{ github.repository }} -b main
